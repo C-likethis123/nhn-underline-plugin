@@ -1,5 +1,5 @@
 {
-  "name": "@toast-ui/editor-plugin-color-syntax",
+  "name": "@toast-ui/editor-plugin-underline",
   "version": "1.0.0",
   "description": "TOAST UI Editor : Underline Plugin",
   "keywords": [
@@ -20,8 +20,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/C-likethis123/nhn-underline-plugin.git",
-    "directory": "plugins/color-syntax"
+    "url": "https://github.com/C-likethis123/nhn-underline-plugin.git"
   },
   "bugs": {
     "url": "https://github.com/C-likethis123/nhn-underline-plugin/issues"
