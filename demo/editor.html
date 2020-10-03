@@ -9,7 +9,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css"
     />
     <!-- Editor -->
-    <link rel="stylesheet" href="http://localhost:8080/dist/cdn/toastui-editor.css" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/v2.2.6/tui-color-picker.css" />
   </head>
   <body>
     <div class="code-html">
@@ -23,15 +23,12 @@
 
     <script class="code-js">
       const { Editor } = toastui;
-      const { underline } = Editor.plugin;
-
       const editor = new Editor({
         el: document.querySelector('#editor'),
         previewStyle: 'vertical',
         height: '500px',
         initialEditType: 'wysiwyg',
         initialValue: 'Try underlining me!',
-        plugins: [underline]
       });
     </script>
   </body>

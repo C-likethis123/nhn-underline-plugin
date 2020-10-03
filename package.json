@@ -31,7 +31,8 @@
     "test:ne": "cross-env KARMA_SERVER=ne karma start",
     "serve": "webpack-dev-server",
     "build:cdn": "webpack --mode=production --cdn & webpack --mode=production --cdn --minify",
-    "build": "webpack --mode=production && npm run build:cdn"
+    "build": "webpack --mode=production && npm run build:cdn",
+    "lint": "eslint 'src/**' --fix"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
