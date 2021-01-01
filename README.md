@@ -1,13 +1,8 @@
-# nhn-underline-plugin
+# tui-underline-plugin
+
 The [TUI Editor](https://github.com/nhn/tui.editor) is a text editor that supports Markdown. Markdown does not support underlining, so the TUI Editor does not support underlining as well. But underlining is a common feature of normal text editors, so it should be supported in the TUI Editor.
 
 Simply include this plugin to the TUI Editor to add an underline button!
-
-## Work to be done
-
-This project is still in progress, and I would greatly appreciate your contributions in these areas:
-- [ ] [Create a plugin](https://github.com/C-likethis123/nhn-underline-plugin/issues/1)
-- [ ] [Make this an npm package](https://github.com/C-likethis123/nhn-underline-plugin/issues/2)
 
 ## Contribution guidelines
 
