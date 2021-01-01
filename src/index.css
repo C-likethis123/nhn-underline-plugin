@@ -1,0 +1,7 @@
+.tui-toolbar-icons.tui-underline {
+  background-position: -4px -69px;
+}
+
+.tui-toolbar-icons.tui-underline:disabled {
+  background-position: -25px -69px;
+}
