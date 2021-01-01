@@ -1,6 +1,6 @@
 {
-  "name": "@toast-ui/editor-plugin-underline",
-  "version": "1.0.0",
+  "name": "tui-underline-plugin",
+  "version": "0.0.0",
   "description": "TOAST UI Editor : Underline Plugin",
   "keywords": [
     "nhn",
@@ -11,7 +11,7 @@
     "plugin",
     "underline"
   ],
-  "main": "dist/toastui-editor-plugin-underline.js",
+  "main": "dist/underline-plugin.js",
   "files": [
     "dist/*.js",
     "index.d.ts"
@@ -32,13 +32,14 @@
     "serve": "webpack-dev-server",
     "build:cdn": "webpack --mode=production --cdn & webpack --mode=production --cdn --minify",
     "build": "webpack --mode=production && npm run build:cdn",
-    "lint": "eslint 'src/**' --fix"
+    "lint": "./node_modules/.bin/eslint 'src/**/*.js' --fix"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "@toast-ui/editor": "^2.0.0",
     "babel-loader": "^8.0.6",
+    "babel-eslint": "^10.1.0",
     "babel-plugin-istanbul": "^6.0.0",
     "cross-env": "^6.0.3",
     "eslint": "^6.8.0",
