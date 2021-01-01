@@ -8,11 +8,31 @@
 
 import "./index.css"
 
+const underlineRegex = /^<u>.*<\/u>$/
+const underlineContentRegex = /<u>([^~]*)<\/u>/g
+
+function applyUnderlineTag(selectedText) {
+  const matchUnderlineStyle = selectedText.match(underlineRegex)
+  let result
+
+  if (matchUnderlineStyle) {
+    result = selectedText.replace(underlineContentRegex, "$1")
+  } else {
+    result = `<u>${selectedText}</u>`
+  }
+
+  return {
+    result,
+    to: result.length,
+  }
+}
+
 function initUI(editor) {
   const toolbar = editor.getUI().getToolbar()
   const italicIndex = toolbar.indexOfItem("italic")
+  const underlineIndex = italicIndex + 1
 
-  toolbar.insertItem(italicIndex + 1, {
+  toolbar.insertItem(underlineIndex, {
     type: "button",
     options: {
       name: "underline",
@@ -21,21 +41,45 @@ function initUI(editor) {
       tooltip: "Underline",
     },
   })
+  const underlineButton = toolbar.getItem(underlineIndex).el
+
+  return underlineButton
+}
+
+function initUIEvents(editor, underlineButton) {
+  underlineButton.addEventListener("click", () => editor.exec("underline"))
 }
 
 /**
  * Underline plugin
- * Some code was modified from https://github.com/nhn/tui.editor/blob/master/plugins/color-syntax/src/js/index.js to learn how to make use of the TUI Editor's API to create the plugin
  * @param {Editor|Viewer} editor - instance of Editor or Viewer
  */
 
 export default function underline(editor) {
   // add commands for editor
-  initUI(editor)
+  const underlineButton = initUI(editor)
+
+  initUIEvents(editor, underlineButton)
   editor.addCommand("markdown", {
     name: "underline",
     exec(md) {
-      console.log(md)
+      const cm = md.getEditor()
+      const rangeFrom = md.getCursor("from")
+      const rangeTo = md.getCursor("to")
+      const selectedText = cm.getSelection()
+      const { result, to } = applyUnderlineTag(selectedText)
+
+      cm.replaceSelection(result)
+
+      // move cursor
+      const newStart = { line: rangeFrom.line, ch: rangeFrom.ch }
+      const newEnd = {
+        line: rangeTo.line,
+        ch: rangeFrom.line === rangeTo.line ? rangeTo.ch + to : to,
+      }
+
+      cm.setSelection(newStart, newEnd)
+      md.focus()
     },
   })
 }
