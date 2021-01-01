@@ -1,44 +1,65 @@
 module.exports = {
-  plugins: ['prettier'],
-  extends: ['tui/es6', 'plugin:prettier/recommended'],
+  plugins: ["prettier"],
+  extends: ["tui/es6", "plugin:prettier/recommended", "prettier"],
+  parser: "babel-eslint",
   parserOptions: {
-    sourceType: 'module'
+    sourceType: "module",
   },
   env: {
     commonjs: true,
-    jasmine: true
+    jasmine: true,
   },
   globals: {
-    fixture: true
+    fixture: true,
   },
   rules: {
-    'lines-around-directive': 0,
-    'newline-before-return': 0,
-    'padding-line-between-statements': [
+    "lines-around-directive": 0,
+    "newline-before-return": 0,
+    "padding-line-between-statements": [
       2,
-      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
-      { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }
+      { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+      {
+        blankLine: "any",
+        prev: ["const", "let", "var"],
+        next: ["const", "let", "var"],
+      },
     ],
-    'no-useless-rename': 'error',
-    'no-duplicate-imports': ['error', { includeExports: true }],
-    'dot-notation': ['error', { allowKeywords: true }],
-    'prefer-destructuring': [
-      'error',
+    "no-useless-rename": "error",
+    "no-duplicate-imports": ["error", { includeExports: true }],
+    "dot-notation": ["error", { allowKeywords: true }],
+    "guard-for-in": "off",
+    "prefer-destructuring": [
+      "error",
       {
         VariableDeclarator: {
           array: true,
-          object: true
+          object: true,
         },
         AssignmentExpression: {
           array: false,
-          object: false
-        }
+          object: false,
+        },
       },
       {
-        enforceForRenamedProperties: false
-      }
+        enforceForRenamedProperties: false,
+      },
     ],
-    'arrow-body-style': ['error', 'as-needed', { requireReturnForObjectLiteral: true }],
-    'object-property-newline': ['error', { allowMultiplePropertiesPerLine: true }]
-  }
-};
+    "arrow-body-style": [
+      "error",
+      "as-needed",
+      { requireReturnForObjectLiteral: true },
+    ],
+    "object-property-newline": [
+      "error",
+      { allowMultiplePropertiesPerLine: true },
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        semi: false,
+        arrowParens: "always",
+        trailingComma: "all",
+      },
+    ],
+  },
+}
