@@ -2,14 +2,14 @@
  * @fileoverview Configs for plugin's bundle file
  * @author Chow Jia Ying <chowjiaying211@gmail.com>
  */
-const path = require("path");
-const webpack = require("webpack");
-const { name, version, author, license } = require("./package.json");
+const path = require("path")
+const webpack = require("webpack")
+const { name, version, author, license } = require("./package.json")
 
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin")
 
 function getOutputConfig(isProduction, isCDN, minify) {
-  const filename = `toastui-${name.replace(/@toast-ui\//, "")}`;
+  const filename = `${name.replace("tui-", "")}`
 
   if (!isProduction || isCDN) {
     const config = {
@@ -17,26 +17,26 @@ function getOutputConfig(isProduction, isCDN, minify) {
       libraryExport: "default",
       libraryTarget: "umd",
       path: path.resolve(__dirname, "dist/cdn"),
-      filename: `${filename}${minify ? ".min" : ""}.js`
-    };
-
-    if (!isProduction) {
-      config.publicPath = "dist/cdn";
+      filename: `${filename}${minify ? ".min" : ""}.js`,
     }
 
-    return config;
+    if (!isProduction) {
+      config.publicPath = "dist/cdn"
+    }
+
+    return config
   }
 
   return {
     libraryExport: "default",
     libraryTarget: "commonjs2",
     path: path.resolve(__dirname, "dist"),
-    filename: `${filename}.js`
-  };
+    filename: `${filename}.js`,
+  }
 }
 
 function getOptimizationConfig(isProduction, minify) {
-  const minimizer = [];
+  const minimizer = []
 
   if (isProduction && minify) {
     minimizer.push(
@@ -44,21 +44,21 @@ function getOptimizationConfig(isProduction, minify) {
         cache: true,
         parallel: true,
         sourceMap: false,
-        extractComments: false
-      })
-    );
+        extractComments: false,
+      }),
+    )
   }
 
-  return { minimizer };
+  return { minimizer }
 }
 
 module.exports = (env, argv) => {
-  const isProduction = argv.mode === "production";
-  const minify = !!argv.minify;
-  const isCDN = !!argv.cdn;
+  const isProduction = argv.mode === "production"
+  const minify = !!argv.minify
+  const isCDN = !!argv.cdn
   const config = {
     mode: isProduction ? "production" : "development",
-    entry: "./src/js/index.js",
+    entry: "./src/index.js",
     output: getOutputConfig(isProduction, isCDN, minify),
     module: {
       rules: [
@@ -68,8 +68,8 @@ module.exports = (env, argv) => {
           loader: "eslint-loader",
           enforce: "pre",
           options: {
-            failOnError: isProduction
-          }
+            failOnError: isProduction,
+          },
         },
         {
           test: /\.js$/,
@@ -77,31 +77,35 @@ module.exports = (env, argv) => {
           loader: "babel-loader?cacheDirectory",
           options: {
             // rootMode: "upward"
-          }
-        }
-      ]
+          },
+        },
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
+        },
+      ],
     },
-    optimization: getOptimizationConfig(isProduction, minify)
-  };
+    optimization: getOptimizationConfig(isProduction, minify),
+  }
 
   if (isProduction) {
     config.plugins = [
       new webpack.BannerPlugin(
         [
-          "TOAST UI Editor : Underline Plugin",
+          "TOAST UI Editor : Font Size Plugin",
           `@version ${version} | ${new Date().toDateString()}`,
           `@author ${author}`,
-          `@license ${license}`
-        ].join("\n")
-      )
-    ];
+          `@license ${license}`,
+        ].join("\n"),
+      ),
+    ]
   } else {
     config.devServer = {
       inline: true,
-      host: "0.0.0.0"
-    };
-    config.devtool = "inline-source-map";
+      host: "0.0.0.0",
+    }
+    config.devtool = "inline-source-map"
   }
 
-  return config;
-};
+  return config
+}
