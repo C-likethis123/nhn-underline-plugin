@@ -60,6 +60,31 @@ export default function underline(editor) {
   const underlineButton = initUI(editor)
 
   initUIEvents(editor, underlineButton)
+  editor.addCommand("wysiwyg", {
+    name: "underline",
+    exec(wwe) {
+      const sq = wwe.getEditor()
+      const isUnderlined = sq.hasFormat("U")
+      const tableSelectionManager = wwe.componentManager.getManager(
+        "tableSelection",
+      )
+
+      if (
+        sq.hasFormat("table") &&
+        tableSelectionManager.getSelectedCells().length
+      ) {
+        tableSelectionManager.styleToSelectedCells((squire) =>
+          squire.underline(),
+        )
+      }
+      if (isUnderlined) {
+        sq.removeUnderline()
+      } else {
+        sq.underline()
+      }
+    },
+  })
+
   editor.addCommand("markdown", {
     name: "underline",
     exec(md) {
