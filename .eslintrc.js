@@ -1,20 +1,37 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 module.exports = {
-  plugins: ["prettier"],
-  extends: ["tui/es6", "plugin:prettier/recommended", "prettier"],
-  parser: "babel-eslint",
+  root: true,
+  plugins: ["prettier", "@typescript-eslint"],
+  extends: [
+    "tui/es6",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+  ],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    sourceType: "module",
+    parser: "typescript-eslint-parser",
   },
   env: {
-    commonjs: true,
-    jasmine: true,
+    browser: true,
+    node: true,
+    jest: true,
   },
   globals: {
-    fixture: true,
+    jest: true,
   },
+  ignorePatterns: ["node_modules/*", "dist"],
   rules: {
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/ban-types": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "@typescript-eslint/no-useless-constructor": 2,
     "lines-around-directive": 0,
     "newline-before-return": 0,
+    "no-use-before-define": 0,
+    "no-useless-constructor": 0,
     "padding-line-between-statements": [
       2,
       { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
@@ -27,7 +44,6 @@ module.exports = {
     "no-useless-rename": "error",
     "no-duplicate-imports": ["error", { includeExports: true }],
     "dot-notation": ["error", { allowKeywords: true }],
-    "guard-for-in": "off",
     "prefer-destructuring": [
       "error",
       {
@@ -53,13 +69,11 @@ module.exports = {
       "error",
       { allowMultiplePropertiesPerLine: true },
     ],
-    "prettier/prettier": [
-      "error",
-      {
-        semi: false,
-        arrowParens: "always",
-        trailingComma: "all",
-      },
-    ],
+    "no-sync": 0,
+    complexity: 0,
+    "max-nested-callbacks": ["error", 4],
+    "no-cond-assign": 0,
+    "max-depth": ["error", 4],
+    "no-return-assign": 0,
   },
-}
+};
