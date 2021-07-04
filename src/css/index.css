@@ -3,9 +3,10 @@
 }
 
 .toastui-editor-toolbar-icons.underline {
-   background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTYsM3Y3YTYsNiwwLDAsMCw2LDZoMGE2LDYsMCwwLDAsNi02VjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIiB4MT0iNCIgeDI9IjIwIiB5MT0iMjEiIHkyPSIyMSIvPjwvc3ZnPg==');
-   background-size: 73% 73%;
-   background-position: 3px 5px;
+   background-image: url('underlineSVG.svg');
+   background-size: 23px 100px;
+   background-position: 3px 1px;
+   background-position-y: 7px;
  }
  
  .toastui-editor-dark .toastui-editor-toolbar-icons.underline {

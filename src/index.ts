@@ -2,25 +2,13 @@ import "./css/index.css";
 
 const PREFIX = "toastui-editor-";
 
-function createApplyButton(text) {
-  const button = document.createElement("button");
-
-  button.setAttribute("type", "button");
-  button.textContent = text;
-
-  return button;
-}
-
-function createToolbarItemOption(container) {
+function createToolbarItemOption() {
   return {
     name: "underline",
     tooltip: "Underline",
     className: `${PREFIX}toolbar-icons underline`,
-    popup: {
-      className: `${PREFIX}popup-underline`,
-      body: container,
-      style: { width: "auto" },
-    },
+    // text: "U",
+    command: "underline",
   };
 }
 
@@ -37,7 +25,6 @@ function createSelection(tr, selection, SelectionClass, openTag, closeTag) {
 
 let currentEditorEl;
 
-// @TODO: add custom syntax for plugin
 /**
  * Color syntax plugin
  * @param {Object} context - plugin context for communicating with editor
@@ -47,9 +34,6 @@ let currentEditorEl;
  */
 export default function colorSyntaxPlugin(context, options = {}) {
   const { eventEmitter, i18n, usageStatistics = true, pmState } = context;
-  const container = document.createElement("div");
-
-  const button = createApplyButton(i18n.get("OK"));
 
   eventEmitter.listen("focus", (editType) => {
     const containerClassName = `${PREFIX}${
@@ -61,64 +45,46 @@ export default function colorSyntaxPlugin(context, options = {}) {
     )!;
   });
 
-  container.addEventListener("click", (ev) => {
-    console.log(ev);
-    if ((ev.target as HTMLElement).getAttribute("type") === "button") {
-      eventEmitter.emit("command", "color", { selectedColor: "blue" });
-      eventEmitter.emit("closePopup");
-      // force the current editor to focus for preventing to lose focus
-      currentEditorEl.focus();
-    }
-  });
-
-  container.appendChild(button);
-
-  const toolbarItem = createToolbarItemOption(container);
+  const toolbarItem = createToolbarItemOption();
 
   return {
     markdownCommands: {
-      color: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
-        if (selectedColor) {
-          const slice = selection.content();
-          const textContent = slice.content.textBetween(
-            0,
-            slice.content.size,
-            "\n"
-          );
-          const openTag = `<span style="text-decoration: underline">`;
-          const closeTag = `</span>`;
-          const colored = `${openTag}${textContent}${closeTag}`;
+      underline: (payload, { tr, selection, schema }, dispatch) => {
+        const slice = selection.content();
+        const textContent = slice.content.textBetween(
+          0,
+          slice.content.size,
+          "\n"
+        );
+        const openTag = `<span style="text-decoration: underline">`;
+        const closeTag = `</span>`;
+        const colored = `${openTag}${textContent}${closeTag}`;
 
-          tr.replaceSelectionWith(schema.text(colored)).setSelection(
-            createSelection(
-              tr,
-              selection,
-              pmState.TextSelection,
-              openTag,
-              closeTag
-            )
-          );
+        tr.replaceSelectionWith(schema.text(colored)).setSelection(
+          createSelection(
+            tr,
+            selection,
+            pmState.TextSelection,
+            openTag,
+            closeTag
+          )
+        );
 
-          dispatch!(tr);
+        dispatch!(tr);
 
-          return true;
-        }
-        return false;
+        return true;
       },
     },
     wysiwygCommands: {
-      color: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
-        if (selectedColor) {
-          const { from, to } = selection;
-          const attrs = { htmlAttrs: { style: `text-decoration: underline` } };
-          const mark = schema.marks.span.create(attrs);
+      underline: (payload, { tr, selection, schema }, dispatch) => {
+        const { from, to } = selection;
+        const attrs = { htmlAttrs: { style: `text-decoration: underline` } };
+        const mark = schema.marks.span.create(attrs);
 
-          tr.addMark(from, to, mark);
-          dispatch!(tr);
+        tr.addMark(from, to, mark);
+        dispatch!(tr);
 
-          return true;
-        }
-        return false;
+        return true;
       },
     },
     toolbarItems: [

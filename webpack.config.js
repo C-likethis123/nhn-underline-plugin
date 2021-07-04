@@ -9,7 +9,8 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 
 const filename = name.replace("tui-", "");
 
-function getOutputConfig(isProduction, isCDN, minify) {
+function getOutputConfig(isProduction, isCDN, minify)
+{
   const defaultConfig = {
     environment: {
       arrowFunction: false,
@@ -17,7 +18,8 @@ function getOutputConfig(isProduction, isCDN, minify) {
     },
   };
 
-  if (!isProduction || isCDN) {
+  if (!isProduction || isCDN)
+  {
     const config = {
       ...defaultConfig,
       library: {
@@ -29,7 +31,8 @@ function getOutputConfig(isProduction, isCDN, minify) {
       filename: `${filename}${minify ? ".min" : ""}.js`,
     };
 
-    if (!isProduction) {
+    if (!isProduction)
+    {
       config.publicPath = "/dist/cdn";
     }
 
@@ -47,10 +50,12 @@ function getOutputConfig(isProduction, isCDN, minify) {
   };
 }
 
-function getOptimizationConfig(isProduction, minify) {
+function getOptimizationConfig(isProduction, minify)
+{
   const minimizer = [];
 
-  if (isProduction && minify) {
+  if (isProduction && minify)
+  {
     minimizer.push(
       new TerserPlugin({
         parallel: true,
@@ -62,7 +67,8 @@ function getOptimizationConfig(isProduction, minify) {
   return { minimizer };
 }
 
-module.exports = (env) => {
+module.exports = (env) =>
+{
   const isProduction = env.WEBPACK_BUILD;
   const { minify = false, cdn = false } = env;
   const config = {
@@ -85,7 +91,21 @@ module.exports = (env) => {
         },
         {
           test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader",
+          ],
+        },
+        {
+          test: /\.svg$/i,
+          use: [
+            {
+              loader: "url-loader",
+              options: {
+                encoding: true,
+              },
+            },
+          ],
         },
       ],
     },
@@ -105,7 +125,8 @@ module.exports = (env) => {
     optimization: getOptimizationConfig(isProduction, minify),
   };
 
-  if (isProduction) {
+  if (isProduction)
+  {
     config.plugins.push(
       new webpack.BannerPlugin(
         [
@@ -116,7 +137,8 @@ module.exports = (env) => {
         ].join("\n")
       )
     );
-  } else {
+  } else
+  {
     config.devServer = {
       // https://github.com/webpack/webpack-dev-server/issues/2484
       injectClient: false,
