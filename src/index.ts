@@ -11,11 +11,16 @@ function createApplyButton(text) {
   return button;
 }
 
-function createToolbarItemOption(colorPickerContainer) {
+function createToolbarItemOption(container) {
   return {
-    name: "color",
-    tooltip: "Text color",
+    name: "underline",
+    tooltip: "Underline",
     className: `${PREFIX}toolbar-icons underline`,
+    popup: {
+      className: `${PREFIX}popup-underline`,
+      body: container,
+      style: { width: "auto" },
+    },
   };
 }
 
@@ -43,7 +48,7 @@ let currentEditorEl;
 export default function colorSyntaxPlugin(context, options = {}) {
   const { eventEmitter, i18n, usageStatistics = true, pmState } = context;
   const container = document.createElement("div");
-  const colorPickerOption = { container, usageStatistics };
+
   const button = createApplyButton(i18n.get("OK"));
 
   eventEmitter.listen("focus", (editType) => {
@@ -57,7 +62,10 @@ export default function colorSyntaxPlugin(context, options = {}) {
   });
 
   container.addEventListener("click", (ev) => {
+    console.log(ev);
     if ((ev.target as HTMLElement).getAttribute("type") === "button") {
+      eventEmitter.emit("command", "color", { selectedColor: "blue" });
+      eventEmitter.emit("closePopup");
       // force the current editor to focus for preventing to lose focus
       currentEditorEl.focus();
     }
@@ -77,8 +85,8 @@ export default function colorSyntaxPlugin(context, options = {}) {
             slice.content.size,
             "\n"
           );
-          const openTag = `<span style="color: ${selectedColor}">`;
-          const closeTag = `</span>`;
+          const openTag = `<u style="color: ${selectedColor}`;
+          const closeTag = `</u>`;
           const colored = `${openTag}${textContent}${closeTag}`;
 
           tr.replaceSelectionWith(schema.text(colored)).setSelection(
@@ -102,7 +110,7 @@ export default function colorSyntaxPlugin(context, options = {}) {
       color: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
         if (selectedColor) {
           const { from, to } = selection;
-          const attrs = { htmlAttrs: { style: `color: ${selectedColor}` } };
+          const attrs = { htmlAttrs: { style: `text-decoration: underline` } };
           const mark = schema.marks.span.create(attrs);
 
           tr.addMark(from, to, mark);
