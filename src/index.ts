@@ -2,25 +2,13 @@ import "./css/index.css";
 
 const PREFIX = "toastui-editor-";
 
-function createApplyButton(text) {
-  const button = document.createElement("button");
-
-  button.setAttribute("type", "button");
-  button.textContent = text;
-
-  return button;
-}
-
-function createToolbarItemOption(container) {
+function createToolbarItemOption(button) {
   return {
     name: "underline",
     tooltip: "Underline",
     className: `${PREFIX}toolbar-icons underline`,
-    popup: {
-      className: `${PREFIX}popup-underline`,
-      body: container,
-      style: { width: "auto" },
-    },
+    el: button,
+    text: "U",
   };
 }
 
@@ -47,9 +35,8 @@ let currentEditorEl;
  */
 export default function colorSyntaxPlugin(context, options = {}) {
   const { eventEmitter, i18n, usageStatistics = true, pmState } = context;
-  const container = document.createElement("div");
-
-  const button = createApplyButton(i18n.get("OK"));
+  const underlineButton = document.createElement("button");
+  underlineButton.setAttribute("type", "button");
 
   eventEmitter.listen("focus", (editType) => {
     const containerClassName = `${PREFIX}${
@@ -61,19 +48,13 @@ export default function colorSyntaxPlugin(context, options = {}) {
     )!;
   });
 
-  container.addEventListener("click", (ev) => {
-    console.log(ev);
-    if ((ev.target as HTMLElement).getAttribute("type") === "button") {
-      eventEmitter.emit("command", "color", { selectedColor: "blue" });
-      eventEmitter.emit("closePopup");
-      // force the current editor to focus for preventing to lose focus
-      currentEditorEl.focus();
-    }
+  const toolbarItem = createToolbarItemOption(underlineButton);
+
+  underlineButton.addEventListener("click", () => {
+    eventEmitter.emit("command", "color", { selectedColor: "blue" });
+    // force the current editor to focus for preventing to lose focus
+    currentEditorEl.focus();
   });
-
-  container.appendChild(button);
-
-  const toolbarItem = createToolbarItemOption(container);
 
   return {
     markdownCommands: {
