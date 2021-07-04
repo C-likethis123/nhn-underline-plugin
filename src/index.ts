@@ -85,8 +85,8 @@ export default function colorSyntaxPlugin(context, options = {}) {
             slice.content.size,
             "\n"
           );
-          const openTag = `<u style="color: ${selectedColor}`;
-          const closeTag = `</u>`;
+          const openTag = `<span style="text-decoration: underline">`;
+          const closeTag = `</span>`;
           const colored = `${openTag}${textContent}${closeTag}`;
 
           tr.replaceSelectionWith(schema.text(colored)).setSelection(
