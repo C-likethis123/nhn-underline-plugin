@@ -49,48 +49,42 @@ export default function colorSyntaxPlugin(context, options = {}) {
 
   return {
     markdownCommands: {
-      color: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
-        if (selectedColor) {
-          const slice = selection.content();
-          const textContent = slice.content.textBetween(
-            0,
-            slice.content.size,
-            "\n"
-          );
-          const openTag = `<span style="text-decoration: underline">`;
-          const closeTag = `</span>`;
-          const colored = `${openTag}${textContent}${closeTag}`;
+      underline: (payload, { tr, selection, schema }, dispatch) => {
+        const slice = selection.content();
+        const textContent = slice.content.textBetween(
+          0,
+          slice.content.size,
+          "\n"
+        );
+        const openTag = `<span style="text-decoration: underline">`;
+        const closeTag = `</span>`;
+        const colored = `${openTag}${textContent}${closeTag}`;
 
-          tr.replaceSelectionWith(schema.text(colored)).setSelection(
-            createSelection(
-              tr,
-              selection,
-              pmState.TextSelection,
-              openTag,
-              closeTag
-            )
-          );
+        tr.replaceSelectionWith(schema.text(colored)).setSelection(
+          createSelection(
+            tr,
+            selection,
+            pmState.TextSelection,
+            openTag,
+            closeTag
+          )
+        );
 
-          dispatch!(tr);
+        dispatch!(tr);
 
-          return true;
-        }
-        return false;
+        return true;
       },
     },
     wysiwygCommands: {
-      color: ({ selectedColor }, { tr, selection, schema }, dispatch) => {
-        if (selectedColor) {
-          const { from, to } = selection;
-          const attrs = { htmlAttrs: { style: `text-decoration: underline` } };
-          const mark = schema.marks.span.create(attrs);
+      underline: (payload, { tr, selection, schema }, dispatch) => {
+        const { from, to } = selection;
+        const attrs = { htmlAttrs: { style: `text-decoration: underline` } };
+        const mark = schema.marks.span.create(attrs);
 
-          tr.addMark(from, to, mark);
-          dispatch!(tr);
+        tr.addMark(from, to, mark);
+        dispatch!(tr);
 
-          return true;
-        }
-        return false;
+        return true;
       },
     },
     toolbarItems: [
