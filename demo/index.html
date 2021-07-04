@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head lang="en">
-    <meta charset="UTF-8" />
-    <title>Editor</title>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <link rel="stylesheet" href="../dist/cdn/underline-plugin.css" />
-    <script src="../dist/cdn/underline-plugin.js"></script>
-  </head>
-  <body>
+
+<head lang="en">
+  <meta charset="UTF-8" />
+  <title>Editor</title>
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
+  <!-- Plugin -->
+  <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/v2.2.6/tui-color-picker.css" />
+  <link rel="stylesheet" href="../dist/cdn/underline-plugin.css" />
+
+</head>
+
+<body>
+  <div class="code-html">
     <div id="editor"></div>
-    <script>
-      const { Editor } = toastui;
-      const { underlinePlugin } = Editor.plugin;
-      const editor = new Editor({
-        el: document.querySelector('#editor'),
-        initialValue: "Hello World!",
-        plugin: [underlinePlugin],
-      });
-    </script>
-  </body>
+  </div>
+  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  <script src="https://uicdn.toast.com/tui-color-picker/v2.2.6/tui-color-picker.min.js"></script>
+  <!-- Plugin -->
+  <script src="../dist/cdn/underline-plugin.js"></script>
+  <script class="code-js">
+    const { Editor } = toastui;
+    const { underline } = Editor.plugin;
+    const editor = new Editor({
+      el: document.querySelector('#editor'),
+      previewStyle: 'vertical',
+      height: '500px',
+      initialEditType: 'wysiwyg',
+      initialValue: 'Select some text and choose a color from the toolbar.',
+      plugins: [underline]
+    });
+  </script>
+</body>
+
 </html>
