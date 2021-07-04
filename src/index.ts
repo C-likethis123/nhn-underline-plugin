@@ -2,13 +2,13 @@ import "./css/index.css";
 
 const PREFIX = "toastui-editor-";
 
-function createToolbarItemOption(button) {
+function createToolbarItemOption() {
   return {
     name: "underline",
     tooltip: "Underline",
     className: `${PREFIX}toolbar-icons underline`,
-    el: button,
     text: "U",
+    command: "underline",
   };
 }
 
@@ -25,7 +25,6 @@ function createSelection(tr, selection, SelectionClass, openTag, closeTag) {
 
 let currentEditorEl;
 
-// @TODO: add custom syntax for plugin
 /**
  * Color syntax plugin
  * @param {Object} context - plugin context for communicating with editor
@@ -35,8 +34,6 @@ let currentEditorEl;
  */
 export default function colorSyntaxPlugin(context, options = {}) {
   const { eventEmitter, i18n, usageStatistics = true, pmState } = context;
-  const underlineButton = document.createElement("button");
-  underlineButton.setAttribute("type", "button");
 
   eventEmitter.listen("focus", (editType) => {
     const containerClassName = `${PREFIX}${
@@ -48,13 +45,7 @@ export default function colorSyntaxPlugin(context, options = {}) {
     )!;
   });
 
-  const toolbarItem = createToolbarItemOption(underlineButton);
-
-  underlineButton.addEventListener("click", () => {
-    eventEmitter.emit("command", "color", { selectedColor: "blue" });
-    // force the current editor to focus for preventing to lose focus
-    currentEditorEl.focus();
-  });
+  const toolbarItem = createToolbarItemOption();
 
   return {
     markdownCommands: {
