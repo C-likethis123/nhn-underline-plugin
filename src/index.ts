@@ -1,5 +1,9 @@
 import "./css/index.css";
 
+import type { Context } from "../types";
+import type { PluginContext, PluginInfo, MdLikeNode } from "@toast-ui/editor";
+import type { Transaction, Selection, TextSelection } from "prosemirror-state";
+
 const PREFIX = "toastui-editor-";
 
 function createToolbarItemOption() {
@@ -12,7 +16,13 @@ function createToolbarItemOption() {
   };
 }
 
-function createSelection(tr, selection, SelectionClass, openTag, closeTag) {
+function createSelection(
+  tr: Transaction,
+  selection: Selection,
+  SelectionClass: typeof TextSelection,
+  openTag: string,
+  closeTag: string
+) {
   const { mapping, doc } = tr;
   const { from, to, empty } = selection;
   const mappedFrom = mapping.map(from) + openTag.length;
@@ -23,16 +33,12 @@ function createSelection(tr, selection, SelectionClass, openTag, closeTag) {
     : SelectionClass.create(doc, mappedFrom, mappedTo);
 }
 
-let currentEditorEl;
-
 /**
- * Color syntax plugin
+ * Underline plugin
  * @param {Object} context - plugin context for communicating with editor
- * @param {Object} options - options for plugin
- * @param {Array.<string>} [options.preset] - preset for color palette (ex: ['#181818', '#292929'])
  * @param {boolean} [options.useCustomSyntax=false] - whether use custom syntax or not
  */
-export default function colorSyntaxPlugin(context, options = {}) {
+export default function underlinePlugin(context: PluginContext): PluginInfo {
   const { eventEmitter, i18n, usageStatistics = true, pmState } = context;
 
   eventEmitter.listen("focus", (editType) => {
