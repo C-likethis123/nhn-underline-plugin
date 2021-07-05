@@ -1,14 +1,10 @@
-.ProseMirror {
-   position: absolute;
-}
-
 .toastui-editor-toolbar-icons.underline {
-   background-image: url('underlineSVG.svg');
-   background-size: 23px 100px;
-   background-position: 3px 1px;
-   background-position-y: 7px;
- }
+  background-image: url('underlineSVG.svg');
+  background-size: 23px 100px;
+  background-position: 3px 1px;
+  background-position-y: 7px;
+}
  
- .toastui-editor-dark .toastui-editor-toolbar-icons.underline {
-   background-position-y: -47px;
- }
+.toastui-editor-dark .toastui-editor-toolbar-icons.underline {
+  background-position-y: -47px;
+}
